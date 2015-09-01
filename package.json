@@ -1,0 +1,21 @@
+{
+  "name": "zoo-user-getter",
+  "version": "1.0.2",
+  "description": "Retrieve current Zooniverse username, or user IP",
+  "main": "userID.js",
+  "keywords": [
+    "zooniverse",
+    "IP",
+    "userID",
+    "username",
+    "address",
+    "user",
+    "zooniverse_id"
+  ],
+  "author": "Alex Bowyer <alex.bowyer@zooniverse.org> (http://www.zooniverse.org/)",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.9.3",
+    "jqueryify": "^1.11.0"
+  }
+}
