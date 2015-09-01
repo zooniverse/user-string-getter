@@ -1,4 +1,4 @@
-$ = require ('jqueryify')
+$ = require('jqueryify')
 currentUserID = null
 zooniverseCurrentUserChecker = null
 
