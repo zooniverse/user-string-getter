@@ -14,7 +14,8 @@ checkZooniverseCurrentUser = =>
   if zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function
     currentUserID = zooniverseCurrentUserChecker()
   else
-    ANONYMOUS
+    currentUserID = ANONYMOUS
+  return currentUserID
 
 getClientOrigin = ->
   eventualIP = new $.Deferred
@@ -39,14 +40,11 @@ getNiceOriginString = (data) ->
 getUserIDorIPAddress = =>
   eventualUserID = new $.Deferred
   if zooniverseCurrentUserChecker is not null
-    checkUserNow = zooniverseCurrentUserChecker()
+    checkUserNow = checkZooniverseCurrentUser()
     if checkUserNow && currentUserID!=checkUserNow
       # if a current ID is stored, but user's current ID is something different (e.g. anon IP), overwrite previous
-      checkZooniverseCurrentUser()
       eventualUserID.resolve currentUserID
     else if currentUserID? and currentUserID != ANONYMOUS
-      eventualUserID.resolve currentUserID
-    else if checkZooniverseCurrentUser()? and currentUserID != ANONYMOUS
       eventualUserID.resolve currentUserID
     else
       getClientOrigin()

@@ -24,10 +24,11 @@
   checkZooniverseCurrentUser = (function(_this) {
     return function() {
       if (zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function) {
-        return currentUserID = zooniverseCurrentUserChecker();
+        currentUserID = zooniverseCurrentUserChecker();
       } else {
-        return ANONYMOUS;
+        currentUserID = ANONYMOUS;
       }
+      return currentUserID;
     };
   })(this);
 
@@ -71,13 +72,10 @@
       var checkUserNow, eventualUserID;
       eventualUserID = new $.Deferred;
       if (zooniverseCurrentUserChecker === !null) {
-        checkUserNow = zooniverseCurrentUserChecker();
+        checkUserNow = checkZooniverseCurrentUser();
         if (checkUserNow && currentUserID !== checkUserNow) {
-          checkZooniverseCurrentUser();
           eventualUserID.resolve(currentUserID);
         } else if ((currentUserID != null) && currentUserID !== ANONYMOUS) {
-          eventualUserID.resolve(currentUserID);
-        } else if ((checkZooniverseCurrentUser() != null) && currentUserID !== ANONYMOUS) {
           eventualUserID.resolve(currentUserID);
         } else {
           getClientOrigin().then(function(data) {
