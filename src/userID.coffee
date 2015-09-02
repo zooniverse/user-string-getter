@@ -67,5 +67,5 @@ exports.checkZooniverseCurrentUser = checkZooniverseCurrentUser
 exports.currentUserID = currentUserID
 exports.ANONYMOUS = ANONYMOUS
 
-window?.UserGetter = exports
-module?.exports = exports
+#window?.UserGetter = exports
+#module?.exports = exports
