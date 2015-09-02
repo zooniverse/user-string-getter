@@ -52,7 +52,7 @@ module.exports = class UserGetter
       else if @currentUserID? and @currentUserID != @ANONYMOUS
         eventualUserID.resolve @currentUserID
       else
-        getClientOrigin()
+        @getClientOrigin()
         .then (data) =>
           if data?
             @currentUserID = @getNiceOriginString data

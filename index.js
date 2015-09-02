@@ -83,7 +83,7 @@
         } else if ((this.currentUserID != null) && this.currentUserID !== this.ANONYMOUS) {
           eventualUserID.resolve(this.currentUserID);
         } else {
-          getClientOrigin().then((function(_this) {
+          this.getClientOrigin().then((function(_this) {
             return function(data) {
               if (data != null) {
                 return _this.currentUserID = _this.getNiceOriginString(data);
