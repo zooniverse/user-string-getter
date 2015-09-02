@@ -12,14 +12,15 @@
 
     UserGetter.prototype.zooniverseCurrentUserChecker = null;
 
-    UserGetter.returnAnonymous = function() {
-      return UserGetter.ANONYMOUS;
+    UserGetter.prototype.returnAnonymous = function() {
+      return this.ANONYMOUS;
     };
 
     function UserGetter(zooniverseCurrentUserCheckerFunction) {
       this.zooniverseCurrentUserCheckerFunction = zooniverseCurrentUserCheckerFunction;
       this.getUserIDorIPAddress = __bind(this.getUserIDorIPAddress, this);
       this.checkZooniverseCurrentUser = __bind(this.checkZooniverseCurrentUser, this);
+      this.returnAnonymous = __bind(this.returnAnonymous, this);
       if (zooniverseCurrentUserCheckerFunction instanceof Function) {
         this.zooniverseCurrentUserChecker = zooniverseCurrentUserCheckerFunction;
       } else {
@@ -76,7 +77,7 @@
       var checkUserNow, eventualUserID;
       eventualUserID = new $.Deferred;
       if (this.zooniverseCurrentUserChecker !== null) {
-        checkUserNow = checkZooniverseCurrentUser();
+        checkUserNow = this.checkZooniverseCurrentUser();
         if (checkUserNow && this.currentUserID !== checkUserNow) {
           eventualUserID.resolve(this.currentUserID);
         } else if ((this.currentUserID != null) && this.currentUserID !== this.ANONYMOUS) {
@@ -85,7 +86,7 @@
           getClientOrigin().then((function(_this) {
             return function(data) {
               if (data != null) {
-                return _this.currentUserID = getNiceOriginString(data);
+                return _this.currentUserID = _this.getNiceOriginString(data);
               }
             };
           })(this)).always((function(_this) {

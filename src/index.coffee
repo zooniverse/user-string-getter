@@ -5,7 +5,7 @@ module.exports = class UserGetter
   currentUserID : @ANONYMOUS
   zooniverseCurrentUserChecker : null
 
-  @returnAnonymous: =>
+  returnAnonymous: =>
     @ANONYMOUS
 
   constructor: (@zooniverseCurrentUserCheckerFunction) ->
@@ -45,7 +45,7 @@ module.exports = class UserGetter
   getUserIDorIPAddress: =>
     eventualUserID = new $.Deferred
     if @zooniverseCurrentUserChecker != null
-      checkUserNow = checkZooniverseCurrentUser()
+      checkUserNow = @checkZooniverseCurrentUser()
       if checkUserNow && @currentUserID!=checkUserNow
         # if a current ID is stored, but user's current ID is something different (e.g. anon IP), overwrite previous
         eventualUserID.resolve @currentUserID
@@ -55,7 +55,7 @@ module.exports = class UserGetter
         getClientOrigin()
         .then (data) =>
           if data?
-            @currentUserID = getNiceOriginString data
+            @currentUserID = @getNiceOriginString data
         .always =>
           eventualUserID.resolve @currentUserID
     else
