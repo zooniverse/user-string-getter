@@ -1,5 +1,6 @@
 $ = require('jqueryify')
-currentUserID = null
+ANONYMOUS = "(anonymous)"
+currentUserID = ANONYMOUS
 zooniverseCurrentUserChecker = null
 
 setZooniverseCurrentUserChecker = (zooniverseCurrentUserCheckerFunction) =>
@@ -13,7 +14,7 @@ checkZooniverseCurrentUser = =>
   if zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function
     currentUserID = zooniverseCurrentUserChecker()
   else
-    null
+    ANONYMOUS
 
 getClientOrigin = ->
   eventualIP = new $.Deferred
@@ -21,19 +22,19 @@ getClientOrigin = ->
   .then (ip) =>
     eventualIP.resolve {ip: ip, address: ip}
   .fail =>
-    eventualIP.resolve {ip: '?.?.?.?', address: '(anonymous)'}
+    eventualIP.resolve {ip: '?.?.?.?', address: ANONYMOUS}
   eventualIP.promise()
 
 getNiceOriginString = (data) ->
   if data.ip? && data.address?
     if data.ip == '?.?.?.?'
-      "(anonymous)"
+      ANONYMOUS
     else if data.ip == data.address
       "(#{ data.ip })"
     else
       "(#{ data.address } [#{ data.ip }])"
   else
-    "(anonymous)"
+    ANONYMOUS
 
 getUserIDorIPAddress = =>
   eventualUserID = new $.Deferred
@@ -43,9 +44,9 @@ getUserIDorIPAddress = =>
       # if a current ID is stored, but user's current ID is something different (e.g. anon IP), overwrite previous
       checkZooniverseCurrentUser()
       eventualUserID.resolve currentUserID
-    else if currentUserID?
+    else if currentUserID? and currentUserID != ANONYMOUS
       eventualUserID.resolve currentUserID
-    else if checkZooniverseCurrentUser()?
+    else if checkZooniverseCurrentUser()? and currentUserID != ANONYMOUS
       eventualUserID.resolve currentUserID
     else
       getClientOrigin()
@@ -64,6 +65,7 @@ exports.getUserIDorIPAddress = getUserIDorIPAddress
 exports.setZooniverseCurrentUserChecker = setZooniverseCurrentUserChecker
 exports.checkZooniverseCurrentUser = checkZooniverseCurrentUser
 exports.currentUserID = currentUserID
+exports.ANONYMOUS = ANONYMOUS
 
 window?.UserGetter = exports
 module?.exports = exports
