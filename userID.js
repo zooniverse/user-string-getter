@@ -23,7 +23,7 @@
 
   checkZooniverseCurrentUser = (function(_this) {
     return function() {
-      if (zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function) {
+      if (zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function && zooniverseCurrentUserChecker() !== null) {
         currentUserID = zooniverseCurrentUserChecker();
       } else {
         currentUserID = ANONYMOUS;
@@ -80,6 +80,7 @@
         } else {
           getClientOrigin().then(function(data) {
             if (data != null) {
+              console.log('setting user id to ' + getNiceOriginString(data));
               return currentUserID = getNiceOriginString(data);
             }
           }).always(function() {
@@ -87,7 +88,7 @@
           });
         }
       } else {
-        eventualUserID.resolve(null);
+        eventualUserID.resolve(ANONYMOUS);
       }
       return eventualUserID.promise();
     };

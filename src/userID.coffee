@@ -11,7 +11,7 @@ setZooniverseCurrentUserChecker = (zooniverseCurrentUserCheckerFunction) =>
     false
 
 checkZooniverseCurrentUser = =>
-  if zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function
+  if zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function && zooniverseCurrentUserChecker() != null
     currentUserID = zooniverseCurrentUserChecker()
   else
     currentUserID = ANONYMOUS
@@ -50,11 +50,12 @@ getUserIDorIPAddress = =>
       getClientOrigin()
       .then (data) =>
         if data?
+          console.log 'setting user id to ' + getNiceOriginString data
           currentUserID = getNiceOriginString data
       .always =>
         eventualUserID.resolve currentUserID
   else
-    eventualUserID.resolve null
+    eventualUserID.resolve ANONYMOUS
   eventualUserID.promise()
 
 exports.getClientOrigin = getClientOrigin
