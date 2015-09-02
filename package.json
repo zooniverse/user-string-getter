@@ -1,8 +1,8 @@
 {
   "name": "zoo-user-getter",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Retrieve current Zooniverse username, or user IP",
-  "main": "./userID.js",
+  "main": "./index.js",
   "keywords": [
     "zooniverse",
     "IP",
