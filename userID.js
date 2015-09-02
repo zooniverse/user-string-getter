@@ -109,6 +109,10 @@
 
   exports.ANONYMOUS = ANONYMOUS;
 
+  if (typeof window !== "undefined" && window !== null) {
+    window.UserGetter = exports;
+  }
+
   if (typeof module !== "undefined" && module !== null) {
     module.exports = exports;
   }
