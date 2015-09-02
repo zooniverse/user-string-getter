@@ -42,7 +42,6 @@
       eventualIP = new $.Deferred;
       $.get('https://api.ipify.org').then((function(_this) {
         return function(ip) {
-          console.log('returned IP was ' + ip);
           return eventualIP.resolve({
             ip: ip,
             address: ip

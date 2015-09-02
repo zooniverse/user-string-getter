@@ -25,7 +25,6 @@ module.exports = class UserGetter
     eventualIP = new $.Deferred
     $.get('https://api.ipify.org')
     .then (ip) =>
-      console.log 'returned IP was ' + ip
       eventualIP.resolve {ip: ip, address: ip}
     .fail =>
       eventualIP.resolve {ip: '?.?.?.?', address: @ANONYMOUS}
