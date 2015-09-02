@@ -1,6 +1,6 @@
 {
   "name": "zoo-user-getter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Retrieve current Zooniverse username, or user IP",
   "main": "userID.js",
   "keywords": [
@@ -15,6 +15,6 @@
   "author": "Alex Bowyer <alex.bowyer@zooniverse.org> (http://www.zooniverse.org/)",
   "license": "ISC",
   "dependencies": {
-    "jqueryify": "^1.11.0"
+    "jqueryify": "1.8.0"
   }
 }
