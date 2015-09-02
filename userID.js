@@ -109,4 +109,8 @@
 
   exports.ANONYMOUS = ANONYMOUS;
 
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = exports;
+  }
+
 }).call(this);

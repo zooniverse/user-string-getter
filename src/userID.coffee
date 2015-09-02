@@ -68,4 +68,4 @@ exports.currentUserID = currentUserID
 exports.ANONYMOUS = ANONYMOUS
 
 #window?.UserGetter = exports
-#module?.exports = exports
+module?.exports = exports
