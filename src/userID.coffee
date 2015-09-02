@@ -64,3 +64,6 @@ exports.getUserIDorIPAddress = getUserIDorIPAddress
 exports.setZooniverseCurrentUserChecker = setZooniverseCurrentUserChecker
 exports.checkZooniverseCurrentUser = checkZooniverseCurrentUser
 exports.currentUserID = currentUserID
+
+window?.UserGetter = exports
+module?.exports = exports
