@@ -21,6 +21,7 @@ getClientOrigin = ->
   eventualIP = new $.Deferred
   $.get('https://api.ipify.org')
   .then (ip) =>
+    console.log 'returned IP was ' + ip
     eventualIP.resolve {ip: ip, address: ip}
   .fail =>
     eventualIP.resolve {ip: '?.?.?.?', address: ANONYMOUS}
@@ -50,7 +51,6 @@ getUserIDorIPAddress = =>
       getClientOrigin()
       .then (data) =>
         if data?
-          console.log 'setting user id to ' + getNiceOriginString data
           currentUserID = getNiceOriginString data
       .always =>
         eventualUserID.resolve currentUserID

@@ -37,6 +37,7 @@
     eventualIP = new $.Deferred;
     $.get('https://api.ipify.org').then((function(_this) {
       return function(ip) {
+        console.log('returned IP was ' + ip);
         return eventualIP.resolve({
           ip: ip,
           address: ip
@@ -80,7 +81,6 @@
         } else {
           getClientOrigin().then(function(data) {
             if (data != null) {
-              console.log('setting user id to ' + getNiceOriginString(data));
               return currentUserID = getNiceOriginString(data);
             }
           }).always(function() {
