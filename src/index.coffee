@@ -1,25 +1,26 @@
-module.exports = (zooniverseCurrentUserCheckerFunction) =>
-  $ = require('jqueryify')
-  ANONYMOUS = "(anonymous)"
-  currentUserID = ANONYMOUS
-  zooniverseCurrentUserChecker = null
+module.exports = class UserGetter
+  $ : require('jqueryify')
+  ANONYMOUS : "(anonymous)"
+  currentUserID : ANONYMOUS
+  zooniverseCurrentUserChecker : null
 
-  returnAnonymous = =>
+  @returnAnonymous: =>
     ANONYMOUS
 
-  if zooniverseCurrentUserCheckerFunction instanceof Function
-    zooniverseCurrentUserChecker = zooniverseCurrentUserCheckerFunction
-  else
-    zooniverseCurrentUserChecker = returnAnonymous
+  constructor: (@zooniverseCurrentUserCheckerFunction) ->
+    if zooniverseCurrentUserCheckerFunction instanceof Function
+      zooniverseCurrentUserChecker = zooniverseCurrentUserCheckerFunction
+    else
+      zooniverseCurrentUserChecker = @returnAnonymous
 
-  checkZooniverseCurrentUser = =>
+  checkZooniverseCurrentUser: =>
     if zooniverseCurrentUserChecker && zooniverseCurrentUserChecker instanceof Function && zooniverseCurrentUserChecker() != null
       currentUserID = zooniverseCurrentUserChecker()
     else
       currentUserID = ANONYMOUS
     return currentUserID
 
-  getClientOrigin = ->
+  getClientOrigin: ->
     eventualIP = new $.Deferred
     $.get('https://api.ipify.org')
     .then (ip) =>
@@ -29,7 +30,7 @@ module.exports = (zooniverseCurrentUserCheckerFunction) =>
       eventualIP.resolve {ip: '?.?.?.?', address: ANONYMOUS}
     eventualIP.promise()
 
-  getNiceOriginString = (data) ->
+  getNiceOriginString: (data) ->
     if data.ip? && data.address?
       if data.ip == '?.?.?.?'
         ANONYMOUS
@@ -40,7 +41,7 @@ module.exports = (zooniverseCurrentUserCheckerFunction) =>
     else
       ANONYMOUS
 
-  getUserIDorIPAddress = =>
+  getUserIDorIPAddress: =>
     eventualUserID = new $.Deferred
     if zooniverseCurrentUserChecker is not null
       checkUserNow = checkZooniverseCurrentUser()
@@ -59,6 +60,3 @@ module.exports = (zooniverseCurrentUserCheckerFunction) =>
     else
       eventualUserID.resolve ANONYMOUS
     eventualUserID.promise()
-
-  window?.UserGetter = module.exports
-  return module.exports
