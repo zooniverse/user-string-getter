@@ -2,7 +2,7 @@ $ = require('jqueryify')
 
 module.exports = class UserGetter
   ANONYMOUS : "(anonymous)"
-  currentUserID : ANONYMOUS
+  currentUserID : @ANONYMOUS
   zooniverseCurrentUserChecker : null
 
   @returnAnonymous: =>

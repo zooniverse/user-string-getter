@@ -8,7 +8,7 @@
   module.exports = UserGetter = (function() {
     UserGetter.prototype.ANONYMOUS = "(anonymous)";
 
-    UserGetter.prototype.currentUserID = ANONYMOUS;
+    UserGetter.prototype.currentUserID = UserGetter.ANONYMOUS;
 
     UserGetter.prototype.zooniverseCurrentUserChecker = null;
 
