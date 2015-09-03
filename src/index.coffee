@@ -1,6 +1,6 @@
 $ = require('jqueryify')
 
-module.exports = class UserGetter
+module.exports = class UserStringGetter
   ANONYMOUS : "(anonymous)"
   currentUserID : @ANONYMOUS
   zooniverseCurrentUserChecker : null
