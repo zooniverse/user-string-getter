@@ -1,4 +1,4 @@
-# zoo-user-getter
+# zooniverse-user-string-getter
 Code used by [Geordi](https://github.com/zooniverse/geordi) to get current zooniverse user ID or, for anonymous users, the IP address.
 
 The string returned might look like any of these:
