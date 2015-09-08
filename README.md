@@ -1,5 +1,5 @@
 # zooniverse-user-string-getter
-Code used by [Geordi](https://github.com/zooniverse/geordi) to get current zooniverse user ID or, for anonymous users, the IP address.
+Code used by [Geordi](https://github.com/zooniverse/geordi) to get current a Zooniverse user ID or, for anonymous users, an IP address.
 
 The string returned might look like any of these:
 * `"1231412"`
@@ -8,7 +8,7 @@ The string returned might look like any of these:
 * `"(site.somedomain.com [12.54.223.55])"`
 * `"(anonymous)"`
 
-The last one is what will be returned as a fallback if the module is unable to determine Zooniverse User ID or IP address.
+The last one is what will be returned as a fallback if the module is unable to determine Zooniverse user ID or IP address.
 
 # How to use
 
@@ -18,7 +18,7 @@ First, install the module to your project:
 npm install --save zooniverse-user-string-getter
 ```
 
-Now, in your `app/index.coffee` file (for hem projects), or your primary index file for other JavaScript projects, set up the library as in this CoffeeScript example:
+Now, in your `app/index.coffee` file (for hem projects), or your primary index file (for other JavaScript projects), set up the library as in this CoffeeScript example:
 ```
 # import any needed libraries
 User = require 'zooniverse/lib/models/user'
