@@ -53,4 +53,4 @@ UserStringGetter.getUserIDorIPAddress()
 
 ## An important note about synchronicity 
 Note that the user string getter is asynchronous. Its `getUserIDorIPAddress()` method returns a [jQuery `Promise` object](http://api.jquery.com/Types/#Promise), and as such you can chain events onto the end of the retrieval call. This is done because the library uses an external web service over AJAX to retrieve the IP, and as such, you need to wait for the code to complete before you can use the result.
-This may require you to do some restructuring of your code. See the [zooniverse-geordi-client code](https://github.com/zooniverse/geordi-client/blob/master/src/index.coffee#L113) for an example of how to properly chain your AJAX calls to deal with the result.
+This may require you to do some restructuring of your code. See the [zooniverse-geordi-client code](https://github.com/zooniverse/geordi-client/blob/master/src/index.coffee#L137) for an example of how to properly chain your AJAX calls to deal with the result.
