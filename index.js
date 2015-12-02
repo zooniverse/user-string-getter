@@ -16,13 +16,13 @@
       return this.ANONYMOUS;
     };
 
-    function UserStringGetter(zooniverseCurrentUserCheckerFunction1) {
-      this.zooniverseCurrentUserCheckerFunction = zooniverseCurrentUserCheckerFunction1;
+    function UserStringGetter(zooniverseCurrentUserCheckerFunction) {
+      this.zooniverseCurrentUserCheckerFunction = zooniverseCurrentUserCheckerFunction;
       this.getUserIDorIPAddress = bind(this.getUserIDorIPAddress, this);
       this.checkZooniverseCurrentUser = bind(this.checkZooniverseCurrentUser, this);
       this.returnAnonymous = bind(this.returnAnonymous, this);
-      if (zooniverseCurrentUserCheckerFunction instanceof Function) {
-        this.zooniverseCurrentUserChecker = zooniverseCurrentUserCheckerFunction;
+      if (this.zooniverseCurrentUserCheckerFunction instanceof Function) {
+        this.zooniverseCurrentUserChecker = this.zooniverseCurrentUserCheckerFunction;
       } else {
         this.zooniverseCurrentUserChecker = this.returnAnonymous;
       }
@@ -91,6 +91,7 @@
           this.getClientOrigin().then((function(_this) {
             return function(data) {
               if (data != null) {
+                console.log(data);
                 return _this.currentUserID = _this.getNiceOriginString(data);
               }
             };

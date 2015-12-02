@@ -9,8 +9,8 @@ module.exports = class UserStringGetter
     @ANONYMOUS
 
   constructor: (@zooniverseCurrentUserCheckerFunction) ->
-    if zooniverseCurrentUserCheckerFunction instanceof Function
-      @zooniverseCurrentUserChecker = zooniverseCurrentUserCheckerFunction
+    if @zooniverseCurrentUserCheckerFunction instanceof Function
+      @zooniverseCurrentUserChecker = @zooniverseCurrentUserCheckerFunction
     else
       @zooniverseCurrentUserChecker = @returnAnonymous
 
@@ -58,6 +58,7 @@ module.exports = class UserStringGetter
         @getClientOrigin()
         .then (data) =>
           if data?
+            console.log data
             @currentUserID = @getNiceOriginString data
         .always =>
           eventualUserID.resolve @currentUserID
