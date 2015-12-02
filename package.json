@@ -1,8 +1,7 @@
 {
   "name": "zooniverse-user-string-getter",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Retrieve current Zooniverse username, or user IP",
-  "main": "./index.js",
   "keywords": [
     "zooniverse",
     "IP",
