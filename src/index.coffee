@@ -16,7 +16,11 @@ module.exports = class UserStringGetter
 
   checkZooniverseCurrentUser: =>
     if @zooniverseCurrentUserChecker != null && @zooniverseCurrentUserChecker instanceof Function && @zooniverseCurrentUserChecker() != null
-      @currentUserID = @zooniverseCurrentUserChecker()
+      newValueForCurrentUser = @zooniverseCurrentUserChecker()
+      if !!newValueForCurrentUser
+        @currentUserID = @zooniverseCurrentUserChecker()
+      else
+        @currentUserID = @ANONYMOUS
     else
       @currentUserID = @ANONYMOUS
     return @currentUserID
