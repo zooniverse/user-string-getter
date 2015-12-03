@@ -21,6 +21,7 @@
       this.getUserIDorIPAddress = bind(this.getUserIDorIPAddress, this);
       this.checkZooniverseCurrentUser = bind(this.checkZooniverseCurrentUser, this);
       this.returnAnonymous = bind(this.returnAnonymous, this);
+      console.log("in constructor of zoo user string getter");
       if (this.zooniverseCurrentUserCheckerFunction instanceof Function) {
         this.zooniverseCurrentUserChecker = this.zooniverseCurrentUserCheckerFunction;
       } else {
@@ -32,12 +33,20 @@
       var newValueForCurrentUser;
       if (this.zooniverseCurrentUserChecker !== null && this.zooniverseCurrentUserChecker instanceof Function && this.zooniverseCurrentUserChecker() !== null) {
         newValueForCurrentUser = this.zooniverseCurrentUserChecker();
+        if (newValueForCurrentUser !== null) {
+          console.log("checkZoo method: The callback user getter function returned " + newValueForCurrentUser);
+        } else {
+          console.log("checkZoo method: The callback user getter function returned null.");
+        }
         if (!!newValueForCurrentUser) {
+          console.log("checkZoo method setting current UserID in getter to that value.");
           this.currentUserID = this.zooniverseCurrentUserChecker();
         } else {
+          console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (1).");
           this.currentUserID = this.ANONYMOUS;
         }
       } else {
+        console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (1).");
         this.currentUserID = this.ANONYMOUS;
       }
       return this.currentUserID;
@@ -91,8 +100,10 @@
           this.getClientOrigin().then((function(_this) {
             return function(data) {
               if (data != null) {
+                console.log("service returned: ");
                 console.log(data);
-                return _this.currentUserID = _this.getNiceOriginString(data);
+                _this.currentUserID = _this.getNiceOriginString(data);
+                return console.log("getUserID method set currentUserID to " + _this.currentUserID);
               }
             };
           })(this)).always((function(_this) {

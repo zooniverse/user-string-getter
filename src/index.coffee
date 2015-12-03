@@ -9,6 +9,7 @@ module.exports = class UserStringGetter
     @ANONYMOUS
 
   constructor: (@zooniverseCurrentUserCheckerFunction) ->
+    console.log "in constructor of zoo user string getter"
     if @zooniverseCurrentUserCheckerFunction instanceof Function
       @zooniverseCurrentUserChecker = @zooniverseCurrentUserCheckerFunction
     else
@@ -17,11 +18,18 @@ module.exports = class UserStringGetter
   checkZooniverseCurrentUser: =>
     if @zooniverseCurrentUserChecker != null && @zooniverseCurrentUserChecker instanceof Function && @zooniverseCurrentUserChecker() != null
       newValueForCurrentUser = @zooniverseCurrentUserChecker()
+      if newValueForCurrentUser!=null
+        console.log "checkZoo method: The callback user getter function returned "+newValueForCurrentUser
+      else
+        console.log "checkZoo method: The callback user getter function returned null."
       if !!newValueForCurrentUser
+        console.log "checkZoo method setting current UserID in getter to that value."
         @currentUserID = @zooniverseCurrentUserChecker()
       else
+        console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (1)."
         @currentUserID = @ANONYMOUS
     else
+      console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (1)."
       @currentUserID = @ANONYMOUS
     return @currentUserID
 
@@ -58,8 +66,10 @@ module.exports = class UserStringGetter
         @getClientOrigin()
         .then (data) =>
           if data?
+            console.log "service returned: "
             console.log data
             @currentUserID = @getNiceOriginString data
+            console.log "getUserID method set currentUserID to "+@currentUserID
         .always =>
           eventualUserID.resolve @currentUserID
     else
