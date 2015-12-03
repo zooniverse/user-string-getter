@@ -29,10 +29,12 @@ module.exports = class UserStringGetter
 
   # external instruction to forget current user (e.g. on known user log out)
   forgetCurrentUserID: =>
+    console.log "at app request, set currentUserID back to "+@ANONYMOUS
     @currentUserID = @ANONYMOUS
 
   # externally set the user ID to be returned - no validation
   rememberCurrentUserID: (newUserID) =>
+    console.log "at app request, set currentUserID to "+newUserID
     @currentUserID = newUserID
 
   getClientOrigin: ->

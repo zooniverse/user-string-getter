@@ -45,10 +45,12 @@
     };
 
     UserStringGetter.prototype.forgetCurrentUserID = function() {
+      console.log("at app request, set currentUserID back to " + this.ANONYMOUS);
       return this.currentUserID = this.ANONYMOUS;
     };
 
     UserStringGetter.prototype.rememberCurrentUserID = function(newUserID) {
+      console.log("at app request, set currentUserID to " + newUserID);
       return this.currentUserID = newUserID;
     };
 
