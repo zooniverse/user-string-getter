@@ -19,9 +19,10 @@
     function UserStringGetter(zooniverseCurrentUserCheckerFunction) {
       this.zooniverseCurrentUserCheckerFunction = zooniverseCurrentUserCheckerFunction;
       this.getUserIDorIPAddress = bind(this.getUserIDorIPAddress, this);
-      this.checkZooniverseCurrentUser = bind(this.checkZooniverseCurrentUser, this);
+      this.rememberCurrentUserID = bind(this.rememberCurrentUserID, this);
+      this.forgetCurrentUserID = bind(this.forgetCurrentUserID, this);
+      this.setCurrentUserIDFromCallback = bind(this.setCurrentUserIDFromCallback, this);
       this.returnAnonymous = bind(this.returnAnonymous, this);
-      console.log("in constructor of zoo user string getter");
       if (this.zooniverseCurrentUserCheckerFunction instanceof Function) {
         this.zooniverseCurrentUserChecker = this.zooniverseCurrentUserCheckerFunction;
       } else {
@@ -29,27 +30,26 @@
       }
     }
 
-    UserStringGetter.prototype.checkZooniverseCurrentUser = function() {
+    UserStringGetter.prototype.setCurrentUserIDFromCallback = function() {
       var newValueForCurrentUser;
       if (this.zooniverseCurrentUserChecker !== null && this.zooniverseCurrentUserChecker instanceof Function && this.zooniverseCurrentUserChecker() !== null) {
         newValueForCurrentUser = this.zooniverseCurrentUserChecker();
-        if (newValueForCurrentUser !== null) {
+        if ((newValueForCurrentUser != null) && newValueForCurrentUser !== this.ANONYMOUS) {
           console.log("checkZoo method: The callback user getter function returned " + newValueForCurrentUser);
-        } else {
-          console.log("checkZoo method: The callback user getter function returned null.");
-        }
-        if (!!newValueForCurrentUser) {
           console.log("checkZoo method setting current UserID in getter to that value.");
           this.currentUserID = this.zooniverseCurrentUserChecker();
-        } else {
-          console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (1).");
-          this.currentUserID = this.ANONYMOUS;
+          return true;
         }
-      } else {
-        console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (2).");
-        this.currentUserID = this.ANONYMOUS;
       }
-      return this.currentUserID;
+      return false;
+    };
+
+    UserStringGetter.prototype.forgetCurrentUserID = function() {
+      return this.currentUserID = this.ANONYMOUS;
+    };
+
+    UserStringGetter.prototype.rememberCurrentUserID = function(newUserID) {
+      return this.currentUserID = newUserID;
     };
 
     UserStringGetter.prototype.getClientOrigin = function() {
@@ -88,13 +88,12 @@
     };
 
     UserStringGetter.prototype.getUserIDorIPAddress = function() {
-      var checkUserNow, eventualUserID;
+      var eventualUserID;
       eventualUserID = new $.Deferred;
-      if (this.zooniverseCurrentUserChecker !== null) {
-        checkUserNow = this.checkZooniverseCurrentUser();
-        if (checkUserNow && this.currentUserID !== checkUserNow) {
-          eventualUserID.resolve(this.currentUserID);
-        } else if ((this.currentUserID != null) && this.currentUserID !== this.ANONYMOUS) {
+      if (this.currentUserID !== this.ANONYMOUS) {
+        eventualUserID.resolve(this.currentUserID);
+      } else {
+        if (this.setCurrentUserIDFromCallback()) {
           eventualUserID.resolve(this.currentUserID);
         } else {
           this.getClientOrigin().then((function(_this) {
@@ -112,8 +111,6 @@
             };
           })(this));
         }
-      } else {
-        eventualUserID.resolve(this.ANONYMOUS);
       }
       return eventualUserID.promise();
     };

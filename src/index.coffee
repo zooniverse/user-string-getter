@@ -9,29 +9,31 @@ module.exports = class UserStringGetter
     @ANONYMOUS
 
   constructor: (@zooniverseCurrentUserCheckerFunction) ->
-    console.log "in constructor of zoo user string getter"
     if @zooniverseCurrentUserCheckerFunction instanceof Function
       @zooniverseCurrentUserChecker = @zooniverseCurrentUserCheckerFunction
     else
       @zooniverseCurrentUserChecker = @returnAnonymous
 
-  checkZooniverseCurrentUser: =>
+  # update current user ID if the callback was able to determine a new non-null, non-undefined, non-ANONYMOUS value
+  #  - in this case no need to use the external IP service
+  # returns a boolean to indicate whether a change has been made
+  setCurrentUserIDFromCallback: =>
     if @zooniverseCurrentUserChecker != null && @zooniverseCurrentUserChecker instanceof Function && @zooniverseCurrentUserChecker() != null
       newValueForCurrentUser = @zooniverseCurrentUserChecker()
-      if newValueForCurrentUser!=null
+      if newValueForCurrentUser? && newValueForCurrentUser != @ANONYMOUS
         console.log "checkZoo method: The callback user getter function returned "+newValueForCurrentUser
-      else
-        console.log "checkZoo method: The callback user getter function returned null."
-      if !!newValueForCurrentUser
         console.log "checkZoo method setting current UserID in getter to that value."
         @currentUserID = @zooniverseCurrentUserChecker()
-      else
-        console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (1)."
-        @currentUserID = @ANONYMOUS
-    else
-      console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (2)."
-      @currentUserID = @ANONYMOUS
-    return @currentUserID
+        return true
+    return false
+
+  # external instruction to forget current user (e.g. on known user log out)
+  forgetCurrentUserID: =>
+    @currentUserID = @ANONYMOUS
+
+  # externally set the user ID to be returned - no validation
+  rememberCurrentUserID: (newUserID) =>
+    @currentUserID = newUserID
 
   getClientOrigin: ->
     eventualIP = new $.Deferred
@@ -55,14 +57,17 @@ module.exports = class UserStringGetter
 
   getUserIDorIPAddress: =>
     eventualUserID = new $.Deferred
-    if @zooniverseCurrentUserChecker != null
-      checkUserNow = @checkZooniverseCurrentUser()
-      if checkUserNow && @currentUserID!=checkUserNow
-        # if a current ID is stored, but user's current ID is something different (e.g. anon IP), overwrite previous
-        eventualUserID.resolve @currentUserID
-      else if @currentUserID? and @currentUserID != @ANONYMOUS
+    if @currentUserID != @ANONYMOUS
+      # a non-anonymous user ID is already known (perhaps set by rememberCurrentUserID),
+      # so we keep on using that until forgetCurrentUserID is called
+      eventualUserID.resolve @currentUserID
+    else
+      # try to set the user ID using the callback
+      if @setCurrentUserIDFromCallback()
+        # current User ID has been set from callback - just return it
         eventualUserID.resolve @currentUserID
       else
+        # the callback didn't help, so we need to use the external service
         @getClientOrigin()
         .then (data) =>
           if data?
@@ -71,7 +76,6 @@ module.exports = class UserStringGetter
             @currentUserID = @getNiceOriginString data
             console.log "getUserID method set currentUserID to "+@currentUserID
         .always =>
+          # in the event of success, this returns an IP string - otherwise it will just return @ANONYMOUS
           eventualUserID.resolve @currentUserID
-    else
-      eventualUserID.resolve @ANONYMOUS
     eventualUserID.promise()
