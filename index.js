@@ -8,6 +8,8 @@
   module.exports = UserStringGetter = (function() {
     UserStringGetter.prototype.ANONYMOUS = "(anonymous)";
 
+    UserStringGetter.prototype.UNAVAILABLE = "(unavailable)";
+
     UserStringGetter.prototype.currentUserID = UserStringGetter.ANONYMOUS;
 
     UserStringGetter.prototype.zooniverseCurrentUserChecker = null;

@@ -2,6 +2,7 @@ $ = require('jqueryify')
 
 module.exports = class UserStringGetter
   ANONYMOUS : "(anonymous)"
+  UNAVAILABLE : "(unavailable)"
   currentUserID : @ANONYMOUS
   zooniverseCurrentUserChecker : null
 
