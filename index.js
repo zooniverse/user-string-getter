@@ -14,6 +14,8 @@
 
     UserStringGetter.prototype.zooniverseCurrentUserChecker = null;
 
+    UserStringGetter.prototype.gettingIP = false;
+
     UserStringGetter.prototype.returnAnonymous = function() {
       return this.ANONYMOUS;
     };
@@ -100,20 +102,23 @@
         if (this.setCurrentUserIDFromCallback()) {
           eventualUserID.resolve(this.currentUserID);
         } else {
-          this.getClientOrigin().then((function(_this) {
-            return function(data) {
-              if (data != null) {
-                console.log("service returned: ");
-                console.log(data);
-                _this.currentUserID = _this.getNiceOriginString(data);
-                return console.log("getUserID method set currentUserID to " + _this.currentUserID);
-              }
-            };
-          })(this)).always((function(_this) {
-            return function() {
-              return eventualUserID.resolve(_this.currentUserID);
-            };
-          })(this));
+          if (!this.gettingIP) {
+            this.getClientOrigin().then((function(_this) {
+              return function(data) {
+                if (data != null) {
+                  console.log("service returned: ");
+                  console.log(data);
+                  _this.currentUserID = _this.getNiceOriginString(data);
+                  return console.log("getUserID method set currentUserID to " + _this.currentUserID);
+                }
+              };
+            })(this)).always((function(_this) {
+              return function() {
+                _this.gettingIP = false;
+                return eventualUserID.resolve(_this.currentUserID);
+              };
+            })(this));
+          }
         }
       }
       return eventualUserID.promise();

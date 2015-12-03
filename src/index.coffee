@@ -5,6 +5,7 @@ module.exports = class UserStringGetter
   UNAVAILABLE : "(unavailable)"
   currentUserID : @ANONYMOUS
   zooniverseCurrentUserChecker : null
+  gettingIP: false
 
   returnAnonymous: =>
     @ANONYMOUS
@@ -70,15 +71,17 @@ module.exports = class UserStringGetter
         # current User ID has been set from callback - just return it
         eventualUserID.resolve @currentUserID
       else
-        # the callback didn't help, so we need to use the external service
-        @getClientOrigin()
-        .then (data) =>
-          if data?
-            console.log "service returned: "
-            console.log data
-            @currentUserID = @getNiceOriginString data
-            console.log "getUserID method set currentUserID to "+@currentUserID
-        .always =>
-          # in the event of success, this returns an IP string - otherwise it will just return @ANONYMOUS
-          eventualUserID.resolve @currentUserID
+        # the callback didn't help, so we need to use the external service - but only if a request is not already in progress
+        if !@gettingIP
+          @getClientOrigin()
+          .then (data) =>
+            if data?
+              console.log "service returned: "
+              console.log data
+              @currentUserID = @getNiceOriginString data
+              console.log "getUserID method set currentUserID to "+@currentUserID
+          .always =>
+            @gettingIP = false
+            # in the event of success, this returns an IP string - otherwise it will just return @ANONYMOUS
+            eventualUserID.resolve @currentUserID
     eventualUserID.promise()
