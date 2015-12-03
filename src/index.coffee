@@ -29,7 +29,7 @@ module.exports = class UserStringGetter
         console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (1)."
         @currentUserID = @ANONYMOUS
     else
-      console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (1)."
+      console.log "checkZoo method setting current UserID in getter to " + @ANONYMOUS + " (2)."
       @currentUserID = @ANONYMOUS
     return @currentUserID
 

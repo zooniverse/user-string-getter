@@ -46,7 +46,7 @@
           this.currentUserID = this.ANONYMOUS;
         }
       } else {
-        console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (1).");
+        console.log("checkZoo method setting current UserID in getter to " + this.ANONYMOUS + " (2).");
         this.currentUserID = this.ANONYMOUS;
       }
       return this.currentUserID;
