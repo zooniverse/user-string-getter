@@ -36,7 +36,7 @@ module.exports = class UserStringGetter
   rememberCurrentUserID: (newUserID) =>
     @currentUserID = newUserID
 
-  getUserIDorIPAddress: =>
+  getUserID: =>
     eventualUserID = new $.Deferred
     if @currentUserID != @ANONYMOUS
       # a non-anonymous user ID is already known (perhaps set by rememberCurrentUserID),

@@ -21,7 +21,7 @@
     function UserStringGetter(zooniverseCurrentUserCheckerFunction, zooniverseCurrentUserCheckerFunctionParameter) {
       this.zooniverseCurrentUserCheckerFunction = zooniverseCurrentUserCheckerFunction;
       this.zooniverseCurrentUserCheckerFunctionParameter = zooniverseCurrentUserCheckerFunctionParameter;
-      this.getUserIDorIPAddress = bind(this.getUserIDorIPAddress, this);
+      this.getUserID = bind(this.getUserID, this);
       this.rememberCurrentUserID = bind(this.rememberCurrentUserID, this);
       this.forgetCurrentUserID = bind(this.forgetCurrentUserID, this);
       this.setCurrentUserIDFromCallback = bind(this.setCurrentUserIDFromCallback, this);
@@ -55,7 +55,7 @@
       return this.currentUserID = newUserID;
     };
 
-    UserStringGetter.prototype.getUserIDorIPAddress = function() {
+    UserStringGetter.prototype.getUserID = function() {
       var eventualUserID;
       eventualUserID = new $.Deferred;
       if (this.currentUserID !== this.ANONYMOUS) {
