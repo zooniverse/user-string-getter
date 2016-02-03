@@ -1,6 +1,3 @@
-# TODO: remove jquery dependency
-$ = require('jqueryify')
-
 module.exports = class UserStringGetter
   ANONYMOUS : "(anonymous)"
   currentUserID : @ANONYMOUS
@@ -37,17 +34,17 @@ module.exports = class UserStringGetter
     @currentUserID = newUserID
 
   getUserID: =>
-    eventualUserID = new $.Deferred
-    if @currentUserID != @ANONYMOUS
-      # a non-anonymous user ID is already known (perhaps set by rememberCurrentUserID),
-      # so we keep on using that until forgetCurrentUserID is called
-      eventualUserID.resolve @currentUserID
-    else
-      # try to set the user ID using the callback
-      if @setCurrentUserIDFromCallback()
-        # current User ID has been set from callback - just return it
-        eventualUserID.resolve @currentUserID
+    eventualUserID = new Promise (resolve, reject) ->
+      if @currentUserID != @ANONYMOUS
+        # a non-anonymous user ID is already known (perhaps set by rememberCurrentUserID),
+        # so we keep on using that until forgetCurrentUserID is called
+        resolve @currentUserID
       else
-        # the callback didn't help, so we just return anonymous
-        eventualUserID.resolve @ANONYMOUS
-    eventualUserID.promise()
+        # try to set the user ID using the callback
+        if @setCurrentUserIDFromCallback()
+          # current User ID has been set from callback - just return it
+          resolve @currentUserID
+        else
+          # the callback didn't help, so we just return anonymous
+          resolve @ANONYMOUS
+    eventualUserID
