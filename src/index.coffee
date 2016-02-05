@@ -10,7 +10,10 @@ module.exports = class UserStringGetter
   constructor: (@zooniverseCurrentUserCheckerFunction,@zooniverseCurrentUserCheckerFunctionParameter) ->
     if @zooniverseCurrentUserCheckerFunction instanceof Function
       @zooniverseCurrentUserChecker = @zooniverseCurrentUserCheckerFunction
-      @zooniverseCurrentUserCheckerParameter = @zooniverseCurrentUserCheckerFunctionParameter
+      if @zooniverseCurrentUserCheckerFunctionParameter
+        @zooniverseCurrentUserCheckerParameter = @zooniverseCurrentUserCheckerFunctionParameter
+      else
+        @zooniverseCurrentUserCheckerParameter = null
     else
       @zooniverseCurrentUserChecker = @returnAnonymous
       @zooniverseCurrentUserCheckerParameter = null
@@ -19,7 +22,10 @@ module.exports = class UserStringGetter
   # returns a boolean to indicate whether a change has been made
   setCurrentUserIDFromCallback: =>
     if @zooniverseCurrentUserChecker != null && @zooniverseCurrentUserChecker instanceof Function
-      userID = @zooniverseCurrentUserChecker(@zooniverseCurrentUserCheckerParameter)
+      if @zooniverseCurrentUserCheckerParameter
+        userID = @zooniverseCurrentUserChecker(@zooniverseCurrentUserCheckerParameter)
+      else
+        userID = @zooniverseCurrentUserChecker()
       if userID != null && userID != @ANONYMOUS
         @currentUserID = userID
         return true
