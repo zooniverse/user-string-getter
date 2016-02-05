@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/zooniverse/user-string-getter.git"
   },
-  "version": "1.1.20",
+  "version": "1.1.22",
   "description": "Retrieve current Zooniverse username, or user IP",
   "keywords": [
     "zooniverse",
@@ -18,5 +18,8 @@
     "zooniverseId"
   ],
   "author": "Alex Bowyer <alex.bowyer@zooniverse.org> (http://www.zooniverse.org/)",
-  "license": "ISC"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "jqueryify": "1.8.0"
+  }
 }
