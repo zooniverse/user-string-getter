@@ -26,7 +26,11 @@
       this.returnAnonymous = bind(this.returnAnonymous, this);
       if (this.zooniverseCurrentUserCheckerFunction instanceof Function) {
         this.zooniverseCurrentUserChecker = this.zooniverseCurrentUserCheckerFunction;
-        this.zooniverseCurrentUserCheckerParameter = this.zooniverseCurrentUserCheckerFunctionParameter;
+        if (this.zooniverseCurrentUserCheckerFunctionParameter) {
+          this.zooniverseCurrentUserCheckerParameter = this.zooniverseCurrentUserCheckerFunctionParameter;
+        } else {
+          this.zooniverseCurrentUserCheckerParameter = null;
+        }
       } else {
         this.zooniverseCurrentUserChecker = this.returnAnonymous;
         this.zooniverseCurrentUserCheckerParameter = null;
@@ -36,7 +40,11 @@
     UserStringGetter.prototype.setCurrentUserIDFromCallback = function() {
       var userID;
       if (this.zooniverseCurrentUserChecker !== null && this.zooniverseCurrentUserChecker instanceof Function) {
-        userID = this.zooniverseCurrentUserChecker(this.zooniverseCurrentUserCheckerParameter);
+        if (this.zooniverseCurrentUserCheckerParameter) {
+          userID = this.zooniverseCurrentUserChecker(this.zooniverseCurrentUserCheckerParameter);
+        } else {
+          userID = this.zooniverseCurrentUserChecker();
+        }
         if (userID !== null && userID !== this.ANONYMOUS) {
           this.currentUserID = userID;
           return true;
