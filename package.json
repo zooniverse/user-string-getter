@@ -6,6 +6,7 @@
   },
   "version": "1.1.22",
   "description": "Retrieve current Zooniverse username, or user IP",
+  "main": "index.js",
   "keywords": [
     "zooniverse",
     "IP",
@@ -17,9 +18,16 @@
     "zooniverse_id",
     "zooniverseId"
   ],
+  "scripts": {
+    "start": "npm run watch",
+    "watch": "coffee --output . --watch ./src"
+  },
   "author": "Alex Bowyer <alex.bowyer@zooniverse.org> (http://www.zooniverse.org/)",
   "license": "Apache-2.0",
+  "devDependencies": {
+    "coffee-script": "^1.10.0"
+  },
   "dependencies": {
-    "jqueryify": "1.8.0"
+    "es6-promise": "^3.2.1"
   }
 }
